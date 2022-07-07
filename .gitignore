@@ -1,0 +1,38 @@
+
+# Godot-specific ignores
+.import/
+*.import
+addons/*/*.ini
+*.log
+
+# Imported translations (automatically generated from CSV files)
+*.translation
+
+# Mono-specific ignores
+.mono/
+data_*/
+mono_crash.*.json
+*.blob
+
+# System/tool-specific ignores
+.directory
+*~
+.DS_Store
+.vs/
+.vscode/
+
+# Plugin specific ignores
+.tmp
+
+# c++
+*.os
+*.dblite
+*.obj
+*.idb
+*.pdb
+*.lib
+*.exp
+
+# build artifacts
+build/*
+saves/*
