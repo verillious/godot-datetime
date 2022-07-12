@@ -1,0 +1,22 @@
+name: "lint and test"
+on: push
+
+jobs:
+  lint-and-test:
+    name: run tests
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:3.4.4
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+      - name: setup python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: install tox
+        run: python -m pip install tox --user
+      - name: tests
+        run: python -m tox -e lint,test
