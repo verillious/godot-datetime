@@ -13,16 +13,21 @@ _global_script_classes=[ {
 "class": "DateTime",
 "language": "GDScript",
 "path": "res://addons/datetime/datetime.gd"
+}, {
+"base": "Reference",
+"class": "TimeRE",
+"language": "GDScript",
+"path": "res://addons/datetime/time_re.gd"
 } ]
 _global_script_class_icons={
-"DateTime": ""
+"DateTime": "",
+"TimeRE": ""
 }
 
 [application]
 
 config/name="godot-datetime"
 config/description="datetime utils for Godot"
-run/main_scene="res://addons/datetime/examples/datetime_example.tscn"
 config/icon="res://resources/icon.png"
 config/version="0.1.0"
 
