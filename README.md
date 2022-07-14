@@ -39,4 +39,4 @@ Currently not supported:
 
 🍪 This project was created with [cookiecutter](https://github.com/audreyr/cookiecutter) and the [verillious/cookiecutter-godot](https://github.com/verillious/cookiecutter-godot) project template.
 
-🎨 <a href="https://www.flaticon.com/free-icons/number" title="number icons">Icon created by Freepik - Flaticon</a>
+🎨 <a href="https://www.flaticon.com/free-icons/time" title="time icons">Icon created by Freepik - Flaticon</a>
