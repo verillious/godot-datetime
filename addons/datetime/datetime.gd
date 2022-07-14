@@ -488,11 +488,12 @@ func add_minutes(minutes: int) -> DateTime:
 #
 # - seconds (`int`): The number of seconds to add to the DateTime copy
 func add_seconds(seconds: int) -> DateTime:
+	var dt = self
 	var new_seconds = self.second + seconds
 	if new_seconds >= 60:
-		add_minutes(new_seconds / 60)
+		dt = dt.add_minutes(new_seconds / 60)
 		new_seconds = new_seconds % 60
-	var data = OS.get_datetime_from_unix_time(self.epoch)
+	var data = OS.get_datetime_from_unix_time(dt.epoch)
 	data["second"] = new_seconds
 	return from_timestamp(OS.get_unix_time_from_datetime(data))
 
