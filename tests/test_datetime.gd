@@ -465,10 +465,10 @@ func test_datetime_year():
 	assert_eq(datetime.strftime("%D of %B, %Y"), "28th of february, 1971")
 
 
-func test_is_leap_year():
-	assert_true(DateTime.is_leap_year(2004), "2004 is a leap year")
-	assert_true(DateTime.is_leap_year(2032), "2032 is a leap year")
-	assert_true(DateTime.is_leap_year(2072), "2072 is a leap year")
-	assert_false(DateTime.is_leap_year(2003), "2003 is not a leap year")
-	assert_false(DateTime.is_leap_year(1817), "1817 is not a leap year")
-	assert_false(DateTime.is_leap_year(2089), "2089 is not a leap year")
+func test_datetime_replace():
+	var datetime = DateTime.datetime({"year": 2022})
+	assert_not_null(datetime)
+	datetime = datetime.replace({"day": 31})
+	assert_eq(datetime.to_string(), "2022-01-31 00:00:00")
+	datetime = datetime.replace({"year": 1970, "hour": 12})
+	assert_eq(datetime.to_string(), "1970-01-31 12:00:00")

@@ -1,5 +1,3 @@
-class_name TimeRE
-
 const DAY_NAMES := PoolStringArray(
 	["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
 )
@@ -40,7 +38,7 @@ var _data := {
 	"S": "(?P<S>6[0-1]|[0-5]\\d|\\d)",
 	"j": "(?P<j>36[0-6]|3[0-5]\\d|[1-2]\\d\\d|0[1-9]\\d|00[1-9]|[1-9]\\d|0[1-9]|[1-9])",
 	"U": "(?P<U>5[0-3]|[0-4]\\d|\\d)",
-	"W": "(?P<W>)",
+	"W": "(?P<W>5[0-3]|[0-4]\\d|\\d)",
 	"%": "%"
 }
 
