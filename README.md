@@ -8,6 +8,8 @@
 
 ## 🖊️ Usage
 
+[:books: API Documentation](../../wiki/DateTime)
+
 ```gdscript
 var datetime = DateTime.now()
 print(datetime.strftime("%D of %B, %Y %H:%M:%S"))
