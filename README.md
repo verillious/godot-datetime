@@ -8,8 +8,7 @@
 
 ## 🖊️ Usage
 
-### `DateTime.datetime(data: Dictionary) -> DateTime`
-```python
+```gdscript
 var datetime = DateTime.now()
 print(datetime.strftime("%D of %B, %Y %H:%M:%S"))
 > "7th of january, 2022 12:04:30"
