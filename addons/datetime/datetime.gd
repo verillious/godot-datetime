@@ -498,6 +498,7 @@ func add_seconds(seconds: int) -> DateTime:
 
 
 # Construct a string representing the datetime with a given format string
+#
 # **Args:**
 #
 # - format (`String`) (default: `"%a %b %d %H:%M:%S %Y"`): String representing how to format the string.
