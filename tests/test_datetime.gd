@@ -472,3 +472,20 @@ func test_datetime_replace():
 	assert_eq(datetime.to_string(), "2022-01-31 00:00:00")
 	datetime = datetime.replace({"year": 1970, "hour": 12})
 	assert_eq(datetime.to_string(), "1970-01-31 12:00:00")
+
+
+func test_datetime_julian():
+	var datetime = DateTime.datetime({"year": 2022, "day": 14, "month": 7})
+	assert_not_null(datetime)
+	assert_eq(datetime.julian, 195)
+	datetime = datetime.add_months(-6)
+	assert_not_null(datetime)
+	assert_eq(datetime.julian, 14)
+	datetime = datetime.add_months(1).add_days(15)
+	assert_not_null(datetime)
+	assert_eq(datetime.julian, 60)
+	assert_eq(datetime.day, 1)
+	datetime = datetime.replace({"year": 1972})
+	assert_not_null(datetime)
+	assert_eq(datetime.julian, 61)
+	assert_eq(datetime.day, 1)

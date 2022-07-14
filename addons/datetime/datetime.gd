@@ -331,12 +331,12 @@ func set_epoch(new_epoch: int) -> void:
 	minute = info["minute"]
 	hour = info["hour"]
 	day = info["day"]
-	julian = _get_day_of_year()
 	month = info["month"]
 	year = info["year"]
 	weekday = info["weekday"]
 	month_name = _MONTH_NAMES[self.month]
 	weekday_name = _DAY_NAMES[self.weekday]
+	julian = _get_day_of_year()
 
 
 # Return a copy of this DateTime with the given timedelta dictionary _added_ to it
