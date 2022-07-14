@@ -29,7 +29,7 @@ _global_script_class_icons={
 config/name="godot-datetime"
 config/description="datetime utils for Godot"
 config/icon="res://addons/datetime/day-and-night.png"
-config/version="0.1.0-alpha"
+config/version="0.1.1"
 
 [debug]
 
