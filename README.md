@@ -17,7 +17,7 @@ var tomorrow = datetime.add_days(1).day
 print(tomorrow)
 > 8
 
-var next_month = datetime.add_month(1).month_name
+var next_month = datetime.add_months(1).month_name
 print(next_month)
 > "february"
 
