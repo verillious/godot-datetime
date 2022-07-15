@@ -6,6 +6,10 @@
 > Datetime utils for Godot
 
 
+<br>
+
+Check out [year of our lord](https://verillious.github.io/yol/) for an example of it working _in the wild!_
+
 ## 🖊️ Usage
 
 [:books: API Documentation](../../wiki/DateTime)
