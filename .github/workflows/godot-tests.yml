@@ -6,17 +6,17 @@ jobs:
     name: run tests
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:3.4.4
+      image: barichello/godot-ci:3.5.1
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           lfs: true
-      - name: setup python 3.8
-        uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
-          python-version: 3.8
-      - name: install tox
-        run: python -m pip install tox --user
-      - name: tests
-        run: python -m tox -e lint,test
+          python-version: "3.10"
+      - run: |
+          apt-get update
+          apt-get -y install python3-dev
+          apt-get -y install python3-pip
+          pip3 install tox
+          tox -e lint,test
