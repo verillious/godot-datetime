@@ -24,7 +24,8 @@ const _MONTH_NAMES := [
 const _DAYS_IN_MONTH := [-1, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 # The [unix timestamp](https://www.unixtimestamp.com/) (time in seconds since the 1st of Jan 1970, 00:00:00)
-var epoch := 0 setget set_epoch
+var epoch := 0:
+	set = set_epoch
 
 # The second in the current minute
 var second := 0
@@ -62,7 +63,9 @@ var dst := false
 
 # Construct a DateTime object from the current unix timestamp
 static func now() -> DateTime:
-	return from_timestamp(OS.get_unix_time(), OS.get_datetime()["dst"])
+	return from_timestamp(
+		Time.get_unix_time_from_system(), Time.get_datetime_dict_from_system()["dst"]
+	)
 
 
 # Construct a DateTime object from a unix timestamp
@@ -111,7 +114,9 @@ static func datetime(datetime: Dictionary) -> DateTime:
 		push_error("Invalid month value of: %s. It should be comprised between 1 and 12." % month)
 		return null
 
-	return from_timestamp(OS.get_unix_time_from_datetime(datetime), datetime.get("dst", false))
+	var unix_time = Time.get_unix_time_from_datetime_dict(datetime)
+
+	return from_timestamp(unix_time, datetime.get("dst", false))
 
 
 # Construct a DateTime object from a string
@@ -271,7 +276,7 @@ static func strptime(date_string: String, format = "%a %b %d %H:%M:%S %Y") -> Da
 	var datetime = {
 		"year": 1970, "month": 1, "day": 1, "hour": hour, "minute": minute, "second": second
 	}
-	return from_timestamp(OS.get_unix_time_from_datetime(datetime))
+	return from_timestamp(Time.get_unix_time_from_datetime_dict(datetime))
 
 
 # Construct a datetime from an ISO format string
@@ -284,21 +289,22 @@ static func strptime(date_string: String, format = "%a %b %d %H:%M:%S %Y") -> Da
 # - date_string (`String`): The iso-formatted string to parse
 static func from_isoformat(date_string: String) -> DateTime:
 	if len(date_string) < 10:
+		print("date string too short: %s" % date_string)
 		push_error("Invalid isoformat string: %s" % date_string)
 		return null
 
 	var date_component = date_string.left(10)
-	var time_component = date_string.right(11)
+	var time_component = date_string.substr(11)
 
 	date_component = _parse_isoformat_date(date_component)
 
-	if not date_component:
+	if date_component.is_empty():
 		push_error("Invalid isoformat string: %s" % date_string)
 		return null
 
 	if time_component:
 		time_component = _parse_isoformat_time(time_component)
-		if not time_component:
+		if time_component.is_empty():
 			push_error("Invalid isoformat string: %s" % date_string)
 			return null
 	else:
@@ -325,7 +331,7 @@ static func from_isoformat(date_string: String) -> DateTime:
 #   (time in seconds since the 1st of Jan 1970, 00:00:00)
 func set_epoch(new_epoch: int) -> void:
 	epoch = new_epoch
-	var info = OS.get_datetime_from_unix_time(epoch)
+	var info = Time.get_datetime_dict_from_unix_time(epoch)
 
 	second = info["second"]
 	minute = info["minute"]
@@ -388,15 +394,15 @@ func replace(data := {}) -> DateTime:
 #
 # - years (`int`): The number of years to add to the DateTime copy
 func add_years(years: int) -> DateTime:
-	var data = OS.get_datetime_from_unix_time(self.epoch)
+	var data = Time.get_datetime_dict_from_unix_time(self.epoch)
 	if years == 0:
-		return from_timestamp(OS.get_unix_time_from_datetime(data))
+		return from_timestamp(Time.get_unix_time_from_datetime_dict(data))
 
 	data["year"] = data["year"] + years
 
 	if data["day"] > _days_in_month(data["month"], data["year"]):
 		data["day"] = _days_in_month(data["month"], data["year"])
-	return from_timestamp(OS.get_unix_time_from_datetime(data))
+	return from_timestamp(Time.get_unix_time_from_datetime_dict(data))
 
 
 # Return a copy of this DateTime with a given number of months added to it
@@ -405,9 +411,9 @@ func add_years(years: int) -> DateTime:
 #
 # - months (`int`): The number of months to add to the DateTime copy
 func add_months(months: int) -> DateTime:
-	var data = OS.get_datetime_from_unix_time(self.epoch)
+	var data = Time.get_datetime_dict_from_unix_time(self.epoch)
 	if not months:
-		return from_timestamp(OS.get_unix_time_from_datetime(data))
+		return from_timestamp(Time.get_unix_time_from_datetime_dict(data))
 
 	for month in range(abs(months)):
 		data["month"] = data["month"] + (1 * sign(months))
@@ -416,7 +422,7 @@ func add_months(months: int) -> DateTime:
 			data["month"] = data["month"] % 12
 		if data["day"] > _days_in_month(data["month"], data["year"]):
 			data["day"] = _days_in_month(data["month"], data["year"])
-	return from_timestamp(OS.get_unix_time_from_datetime(data))
+	return from_timestamp(Time.get_unix_time_from_datetime_dict(data))
 
 
 # Return a copy of this DateTime with a given number of days added to it
@@ -425,9 +431,9 @@ func add_months(months: int) -> DateTime:
 #
 # - days (`int`): The number of days to add to the DateTime copy
 func add_days(days: int) -> DateTime:
-	var data = OS.get_datetime_from_unix_time(self.epoch)
+	var data = Time.get_datetime_dict_from_unix_time(self.epoch)
 	if not days:
-		return from_timestamp(OS.get_unix_time_from_datetime(data))
+		return from_timestamp(Time.get_unix_time_from_datetime_dict(data))
 
 	var new_day = days + self.day
 	var new_month = self.month
@@ -447,7 +453,7 @@ func add_days(days: int) -> DateTime:
 	data["month"] = new_month
 	data["year"] = new_year
 
-	return from_timestamp(OS.get_unix_time_from_datetime(data))
+	return from_timestamp(Time.get_unix_time_from_datetime_dict(data))
 
 
 # Return a copy of this DateTime with a given number of hours added to it
@@ -461,9 +467,9 @@ func add_hours(hours: int) -> DateTime:
 	if new_hours >= 24:
 		dt = dt.add_days(new_hours / 24)
 		new_hours = new_hours % 24
-	var data = OS.get_datetime_from_unix_time(dt.epoch)
+	var data = Time.get_datetime_dict_from_unix_time(dt.epoch)
 	data["hour"] = new_hours
-	return from_timestamp(OS.get_unix_time_from_datetime(data))
+	return from_timestamp(Time.get_unix_time_from_datetime_dict(data))
 
 
 # Return a copy of this DateTime with a given number of minutes added to it
@@ -477,9 +483,9 @@ func add_minutes(minutes: int) -> DateTime:
 	if new_minutes >= 60:
 		dt = dt.add_hours(new_minutes / 60)
 		new_minutes = new_minutes % 60
-	var data = OS.get_datetime_from_unix_time(dt.epoch)
+	var data = Time.get_datetime_dict_from_unix_time(dt.epoch)
 	data["minute"] = new_minutes
-	return from_timestamp(OS.get_unix_time_from_datetime(data))
+	return from_timestamp(Time.get_unix_time_from_datetime_dict(data))
 
 
 # Return a copy of this DateTime with a given number of seconds added to it
@@ -493,9 +499,9 @@ func add_seconds(seconds: int) -> DateTime:
 	if new_seconds >= 60:
 		dt = dt.add_minutes(new_seconds / 60)
 		new_seconds = new_seconds % 60
-	var data = OS.get_datetime_from_unix_time(dt.epoch)
+	var data = Time.get_datetime_dict_from_unix_time(dt.epoch)
 	data["second"] = new_seconds
-	return from_timestamp(OS.get_unix_time_from_datetime(data))
+	return from_timestamp(Time.get_unix_time_from_datetime_dict(data))
 
 
 # Construct a string representing the datetime with a given format string
@@ -539,7 +545,7 @@ func strftime(format: String = "%a %b %d %H:%M:%S %Y") -> String:
 	return_string = return_string.replace("%a", weekday_name_short)
 	return_string = return_string.replace("%B", self.month_name)
 	return_string = return_string.replace("%b", month_name_short)
-	return_string = return_string.replace("%w", wrapi(self.weekday - 6, 0, 6))
+	return_string = return_string.replace("%w", str(wrapi(self.weekday - 6, 0, 6)))
 	return_string = return_string.replace("%D", _ordinal(self.day))
 	return_string = return_string.replace("%d", "%02d" % self.day)
 	return_string = return_string.replace("%m", "%02d" % self.month)
@@ -550,9 +556,9 @@ func strftime(format: String = "%a %b %d %H:%M:%S %Y") -> String:
 	return_string = return_string.replace("%p", am_pm)
 	return_string = return_string.replace("%M", "%02d" % self.minute)
 	return_string = return_string.replace("%S", "%02d" % self.second)
-	return_string = return_string.replace("%j", self._get_day_of_year())
-	return_string = return_string.replace("%U", self._get_week_of_year(false))
-	return_string = return_string.replace("%W", self._get_week_of_year())
+	return_string = return_string.replace("%j", str(self._get_day_of_year()))
+	return_string = return_string.replace("%U", str(self._get_week_of_year(false)))
+	return_string = return_string.replace("%W", str(self._get_week_of_year()))
 
 	return return_string
 

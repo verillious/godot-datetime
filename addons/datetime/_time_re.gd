@@ -1,33 +1,29 @@
-const DAY_NAMES := PoolStringArray(
-	["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
-)
+const DAY_NAMES := ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
 
-const MONTH_NAMES := PoolStringArray(
-	[
-		"january",
-		"february",
-		"march",
-		"april",
-		"may",
-		"june",
-		"july",
-		"august",
-		"september",
-		"october",
-		"november",
-		"december"
-	]
-)
+const MONTH_NAMES := [
+	"january",
+	"february",
+	"march",
+	"april",
+	"may",
+	"june",
+	"july",
+	"august",
+	"september",
+	"october",
+	"november",
+	"december"
+]
 
 var _data := {
 	"a": "(?P<a>)",
-	"A": "(?P<A>%s)" % DAY_NAMES.join("|"),
+	"A": "(?P<A>%s)" % "|".join(DAY_NAMES),
 	"w": "(?P<w>[0-6])",
 	"d": "(?P<d>3[0-1]|[1-2]\\d|0[1-9]|[1-9]| [1-9])",
 	"D":
 	"(?P<D>3[0-1](?:th|rd|st)|[1-2]\\d(?:th|rd|st)|0[1-9](?:th|rd|st)|[1-9](?:th|rd|st)| [1-9](?:th|rd|st))",
 	"b": "(?P<b>)",
-	"B": "(?P<B>%s)" % MONTH_NAMES.join("|"),
+	"B": "(?P<B>%s)" % "|".join(MONTH_NAMES),
 	"m": "(?P<m>1[0-2]|0[1-9]|[1-9])",
 	"y": "(?P<y>\\d\\d)",
 	"Y": "(?P<Y>\\d\\d\\d\\d)",
@@ -45,8 +41,8 @@ var _data := {
 
 func _init(data := _data) -> void:
 	_data = data
-	_data["a"] = "(?P<a>%s)" % day_names_short().join("|")
-	_data["b"] = "(?P<b>%s)" % month_names_short().join("|")
+	_data["a"] = "(?P<a>%s)" % "|".join(day_names_short())
+	_data["b"] = "(?P<b>%s)" % "|".join(month_names_short())
 
 
 func pattern(format):
@@ -69,15 +65,15 @@ func pattern(format):
 	return "%s%s" % [processed_format, format]
 
 
-static func month_names_short() -> PoolStringArray:
-	var month_name_short := PoolStringArray([])
+static func month_names_short() -> PackedStringArray:
+	var month_name_short := PackedStringArray([])
 	for month_name in MONTH_NAMES:
 		month_name_short.append(month_name.left(3))
 	return month_name_short
 
 
-static func day_names_short() -> PoolStringArray:
-	var day_name_short := PoolStringArray([])
+static func day_names_short() -> PackedStringArray:
+	var day_name_short := PackedStringArray([])
 	for day_name in DAY_NAMES:
 		day_name_short.append(day_name.left(3))
 	return day_name_short

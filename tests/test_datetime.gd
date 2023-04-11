@@ -26,8 +26,8 @@ func test_datetime_from_isoformat_fails():
 	Engine.print_error_messages = false
 	var datetime = DateTime.from_isoformat("")
 	assert_null(datetime, "")
-	datetime = DateTime.from_isoformat("\ud800")
-	assert_null(datetime, "\ud800")
+	datetime = DateTime.from_isoformat("�")
+	assert_null(datetime, "�")
 	datetime = DateTime.from_isoformat("009-03-04")
 	assert_null(datetime, "009-03-04")
 	datetime = DateTime.from_isoformat("123456789")
@@ -46,8 +46,8 @@ func test_datetime_from_isoformat_fails():
 	assert_null(datetime, "2019-W53-1")
 	datetime = DateTime.from_isoformat("2020-W54-1")
 	assert_null(datetime, "2020-W54-1")
-	datetime = DateTime.from_isoformat("2009\ud80002\ud80028")
-	assert_null(datetime, "2009\ud80002\ud80028")
+	datetime = DateTime.from_isoformat("2009�02�28")
+	assert_null(datetime, "2009�02�28")
 	datetime = DateTime.from_isoformat("00010101")
 	assert_null(datetime, "00010101")
 	datetime = DateTime.from_isoformat("20000101")
@@ -284,7 +284,7 @@ func test_isoformat():
 	assert_not_null(datetime)
 	assert_eq(datetime.isoformat("\\x00"), "0001-02-03\\x0004:05:01")
 	assert_not_null(datetime)
-	assert_eq(datetime.isoformat("\ud800"), "0001-02-03\ud80004:05:01")
+	assert_eq(datetime.isoformat("�"), "0001-02-03�04:05:01")
 	assert_not_null(datetime)
 	assert_eq(datetime.isoformat("T", "hours"), "0001-02-03T04")
 	assert_not_null(datetime)
@@ -303,7 +303,7 @@ func test_isoformat():
 
 
 func test_datetime_from_now():
-	var os_now = OS.get_datetime()
+	var os_now = Time.get_datetime_dict_from_system()
 	var datetime = DateTime.now()
 	assert_not_null(datetime)
 	assert_eq(datetime.second, os_now["second"], "second should match os.now")
