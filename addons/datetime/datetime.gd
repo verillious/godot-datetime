@@ -3,7 +3,7 @@ class_name DateTime
 const _TIME_RE = preload("res://addons/datetime/_time_re.gd")
 
 const _DAY_NAMES := [
-	"", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"
+	"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"
 ]
 
 const _MONTH_NAMES := [
