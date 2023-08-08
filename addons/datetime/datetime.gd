@@ -509,10 +509,7 @@ func adjust_for_time_zone() -> DateTime:
   var dt = self
 	var adjusted_epoch := dt.epoch + (Time.get_time_zone_from_system().bias * 60)
 	
-	var adjusted_time = from_timestamp(
-			adjusted_epoch,  Time.get_datetime_dict_from_system()["dst"]
-		)
-	return adjusted_time
+	return from_timestamp(adjusted_epoch,  Time.get_datetime_dict_from_system()["dst"])
 # Construct a string representing the datetime with a given format string
 #
 # **Args:**
