@@ -62,9 +62,9 @@ var dst := false
 
 # Construct a DateTime object from the current unix timestamp
 static func now(adjust_for_timezone:= false) -> DateTime:
-		return from_timestamp(
-			Time.get_unix_time_from_system(), Time.get_datetime_dict_from_system()["dst"]
-		)
+	return from_timestamp(
+		Time.get_unix_time_from_system(), Time.get_datetime_dict_from_system()["dst"]
+	)
 
 # Construct a DateTime object from a unix timestamp
 # **Args:**
