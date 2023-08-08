@@ -506,6 +506,7 @@ func adjust_for_time_zone() -> DateTime:
 	var adjusted_time = from_timestamp(
 			unix_time, Time.get_datetime_dict_from_system()["dst"]
 		)
+
 	return adjusted_time
 
 
