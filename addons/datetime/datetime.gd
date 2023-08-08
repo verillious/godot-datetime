@@ -498,6 +498,11 @@ func add_seconds(seconds: int) -> DateTime:
 	return from_timestamp(OS.get_unix_time_from_datetime(data))
 
 
+func adjust_for_time_zone() -> DateTime:
+  var dt = self
+  var adjusted_epoch = dt.epoch + (OS.get_time_zone_info().bias * 60)
+
+  return from_timestamp(OS.get_unix_time_from_datetime(adjusted_epoch))
 # Construct a string representing the datetime with a given format string
 #
 # **Args:**
